@@ -1,7 +1,7 @@
 import css from "./Todo.module.css";
 
 const Todo = (props) => {
-  console.log(props); 
+  console.log(props);
   return (
     <div className={css.wrapper}>
       <div>
@@ -10,7 +10,9 @@ const Todo = (props) => {
       </div>
       <div>
         <button className="mainBtn">Edit</button>
-        <button className="mainBtn">Del</button>
+        <button onClick={() => props.deleteTodo(props.id)} className="mainBtn">
+          Del
+        </button>
       </div>
     </div>
   );
