@@ -25,10 +25,15 @@
   border-radius: 7px;
   border: none;
   color: white;
+  cursor: pointer;
 }
 
 .mainInput {
   padding: 10px;
   border: 1px solid rgb(213, 213, 213);
   border-radius: 7px;
+}
+
+.mainInput:focus {
+  outline: none;
 }
