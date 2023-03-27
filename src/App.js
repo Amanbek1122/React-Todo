@@ -2,29 +2,19 @@ import "./App.css";
 import Header from "./components/header/Header";
 import CreateTodo from "./components/createTodo/CreateTodo";
 import Todo from "./components/todo/Todo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const arr = [
-  {
-    id: 1,
-    title: "Купить бананы",
-    status: false,
-  },
-  {
-    id: 2,
-    title: "Купить пепси",
-    status: true,
-  },
-  {
-    id: 3,
-    title: "Купить соль",
-    status: false,
-  },
-];
 
+const datas = JSON.parse(localStorage.getItem('todos')) || []
 function App() {
   // state here
-  const [todosArray, setTodosArray] = useState(arr);
+  const [todosArray, setTodosArray] = useState(datas);
+
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todosArray))
+  }, [todosArray])
+
+  console.log(todosArray);
 
   const addTodo = (str) => {
     setTodosArray([
@@ -42,6 +32,26 @@ function App() {
     setTodosArray(result);
   };
 
+  const onStatusChange = (id) => {
+    const newArr = todosArray.map((item) => {
+      if(item.id === id) {
+        return { ...item, status: !item.status }
+      }
+      return item
+    })
+    setTodosArray(newArr)
+  }
+
+  const onEditTodo = (id, newTitle) => {
+    const newArr = todosArray.map((item) => {
+      if(item.id === id) {
+        return {...item, title: newTitle}
+      }
+      return item
+    })
+    setTodosArray(newArr);
+  }
+
   const newTodos = todosArray.map((item) => (
     <Todo
       key={item.id}
@@ -49,6 +59,8 @@ function App() {
       title={item.title}
       status={item.status}
       deleteTodo={deleteTodo}
+      onStatusChange={onStatusChange}
+      onEditTodo={onEditTodo}
     />
   ));
   const compleatTodos = todosArray.reduce((acc, item) => acc + item.status, 0);
