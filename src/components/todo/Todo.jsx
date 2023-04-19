@@ -1,24 +1,34 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { deleteTodo, onEditTodo, onStatusChange } from "../../redux/todoSlice";
 import css from "./Todo.module.css";
 
 const Todo = (props) => {
   const [isEdit, setEdit] = useState(false);
-  const [inputValue, setInputValue] = useState(props.title)
-  // console.log(props);
+  const [inputValue, setInputValue] = useState(props.title);
 
+  const dispatch = useDispatch();
   const handleEdit = () => {
-    setEdit(!isEdit)
+    setEdit(!isEdit);
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteTodo(props.id));
+  };
+
+  const handleStatus = () => {
+    dispatch(onStatusChange(props.id));
   };
 
   const handleInput = (e) => {
-    setInputValue(e.target.value)
-  }
+    setInputValue(e.target.value);
+  };
 
   const submit = (e) => {
     e.preventDefault();
-    props.onEditTodo(props.id, inputValue)
-    setEdit(false)
-  }
+    dispatch(onEditTodo({ id: props.id, inputValue }));
+    setEdit(false);
+  };
 
   return (
     <div className={css.wrapper}>
@@ -31,7 +41,7 @@ const Todo = (props) => {
         <label>
           <input
             checked={props.status}
-            onChange={() => props.onStatusChange(props.id)}
+            onChange={handleStatus}
             type="checkbox"
           />
           <p className={props.status ? css.compleat : ""}>{props.title}</p>
@@ -41,7 +51,7 @@ const Todo = (props) => {
         <button onClick={handleEdit} className="mainBtn">
           Edit
         </button>
-        <button onClick={() => props.deleteTodo(props.id)} className="mainBtn">
+        <button onClick={handleDelete} className="mainBtn">
           Del
         </button>
       </div>
