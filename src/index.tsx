@@ -6,7 +6,37 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { store } from "./redux";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+let num: number | string = 10;
+num = 5;
+num = "asdasd";
+
+let a: number = 1
+let b: string = 'Hello'
+let s: boolean = false
+let u: undefined = undefined
+let n: null = null
+
+let arr: Array<number | string> = [1,2,3]
+arr.push('asdad')
+
+interface OBJType {
+  name: string;
+  age: number;
+  sayHello: (name: string) => void  
+}
+let obj:OBJType  = {
+  name: 'solid',
+  age: 15,
+  sayHello: (name: string) => {
+    alert("Hello " + name)
+  }
+}
+
+obj.sayHello('Aman')
+
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
