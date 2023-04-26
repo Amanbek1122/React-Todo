@@ -5,9 +5,14 @@ import Todo from "./components/todo/Todo";
 import { useSelector } from "react-redux";
 import { RootState } from "./redux";
 import { TodoType } from "./types";
+import { useEffect } from "react";
 
 function App() {
   const todosArray = useSelector((state: RootState) => state.data)
+
+  useEffect(() =>{
+    console.log("Hello world");
+  }, [])
 
   const newTodos = todosArray.map((item: TodoType) => (
     <Todo key={item.id} {...item} />
