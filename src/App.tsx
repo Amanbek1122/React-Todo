@@ -5,9 +5,12 @@ import Todo from "./components/todo/Todo";
 import { useSelector } from "react-redux";
 import { RootState } from "./redux";
 import { TodoType } from "./types";
+import { useState } from "react";
 
 function App() {
   const todosArray = useSelector((state: RootState) => state.data)
+
+  const [test, setTest] = useState();
 
   const newTodos = todosArray.map((item: TodoType) => (
     <Todo key={item.id} {...item} />
