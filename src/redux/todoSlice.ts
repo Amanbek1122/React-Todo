@@ -1,4 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { TodoType } from "../types";
+
+interface TodoSliceType {
+  data: TodoType[];
+  isLoading: boolean;
+}
 
 const datas = JSON.parse(localStorage.getItem("todos")) || [];
 const todoSlice = createSlice({
@@ -6,28 +12,31 @@ const todoSlice = createSlice({
   initialState: {
     data: datas,
     isLoading: true,
-  },
+  } as TodoSliceType,
   reducers: {
-    addTodo: (state, action) => {
+    addTodo: (state, action: PayloadAction<string>) => {
       state.data.push({
         id: Date.now(),
         title: action.payload,
         status: false,
       });
     },
-    deleteTodo: (state, { payload }) => {
-      state.data = state.data.filter((el) => el.id !== payload);
+    deleteTodo: (state, { payload }: PayloadAction<string | number>) => {
+      state.data = state.data.filter((el: TodoType) => el.id !== payload);
     },
-    onStatusChange: (state, { payload }) => {
-      state.data = state.data.map((item) => {
+    onStatusChange: (state, { payload }: PayloadAction<string | number>) => {
+      state.data = state.data.map((item: TodoType) => {
         if (item.id === payload) {
           return { ...item, status: !item.status };
         }
         return item;
       });
     },
-    onEditTodo: (state, { payload }) => {
-      state.data = state.data.map((item) => {
+    onEditTodo: (
+      state,
+      { payload }: PayloadAction<{ id: number | string; inputValue: string }>
+    ) => {
+      state.data = state.data.map((item: TodoType) => {
         if (item.id === payload.id) {
           return { ...item, title: payload.inputValue };
         }
