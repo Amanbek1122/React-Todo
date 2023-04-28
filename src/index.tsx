@@ -32,7 +32,7 @@ let obj:OBJType  = {
   }
 }
 
-obj.sayHello('Aman')
+// obj.sayHello('Aman')
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

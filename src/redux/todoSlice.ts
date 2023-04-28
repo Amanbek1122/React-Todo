@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TodoType } from "../types";
+import { addTodos, deleteTodo, fetchTodos } from "./asyncReducers";
 
 interface TodoSliceType {
   data: TodoType[];
@@ -14,16 +15,6 @@ const todoSlice = createSlice({
     isLoading: true,
   } as TodoSliceType,
   reducers: {
-    addTodo: (state, action: PayloadAction<string>) => {
-      state.data.push({
-        id: Date.now(),
-        title: action.payload,
-        status: false,
-      });
-    },
-    deleteTodo: (state, { payload }: PayloadAction<string | number>) => {
-      state.data = state.data.filter((el: TodoType) => el.id !== payload);
-    },
     onStatusChange: (state, { payload }: PayloadAction<string | number>) => {
       state.data = state.data.map((item: TodoType) => {
         if (item.id === payload) {
@@ -44,8 +35,22 @@ const todoSlice = createSlice({
       });
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(fetchTodos.fulfilled, (state, action) => {
+      state.data = action.payload;
+    });
+
+    builder.addCase(deleteTodo.fulfilled, (state, action) => {
+      state.data = state.data.filter((el: TodoType) => el.id !== action.payload)
+    });
+
+    builder.addCase(addTodos.fulfilled, (state, action) => {
+      state.data.push(action.payload)
+    });
+
+  },
 });
 
-export const { addTodo, deleteTodo, onStatusChange, onEditTodo } =
+export const { onStatusChange, onEditTodo } =
   todoSlice.actions;
 export const todoReducer = todoSlice.reducer;

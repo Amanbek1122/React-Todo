@@ -1,17 +1,18 @@
 import { ChangeEvent, FC, useState } from "react";
 import { useDispatch } from "react-redux";
-import { addTodo } from "../../redux/todoSlice";
+import { AppDispatch } from "../../redux";
+import { addTodos } from "../../redux/asyncReducers";
 import css from "./CreateTodo.module.css";
 
 const CreateTodo: FC = () => {
   const [inputValue, setInputValue] = useState("");
    
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
   const submit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     if(inputValue) {
       // props.addTodo(inputValue)
-      dispatch( addTodo(inputValue) )
+      dispatch( addTodos(inputValue) )
       setInputValue('')
     }
   }

@@ -3,18 +3,19 @@ import Header from "./components/header/Header";
 import CreateTodo from "./components/createTodo/CreateTodo";
 import Todo from "./components/todo/Todo";
 import { useSelector } from "react-redux";
-import { RootState } from "./redux";
+import { AppDispatch, RootState } from "./redux";
 import { TodoType } from "./types";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchTodos } from "./redux/asyncReducers";
 
 function App() {
   const todosArray = useSelector((state: RootState) => state.data)
 
+  const dispatch = useDispatch<AppDispatch>();
 
-  const [test, setTest] = useState();
-
-  useEffect(() =>{
-    console.log("Hello world");
+  useEffect(() => {
+    dispatch(fetchTodos())
   }, [])
 
   const newTodos = todosArray.map((item: TodoType) => (
